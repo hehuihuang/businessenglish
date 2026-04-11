@@ -21,6 +21,8 @@ const App = {
   bindEvents() {
     const searchInput = document.getElementById('search-input');
     const searchClear = document.getElementById('search-clear');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebar-toggle');
 
     searchInput.addEventListener('input', (e) => {
       this.searchQuery = e.target.value;
@@ -54,6 +56,14 @@ const App = {
       }
     });
 
+    // Close mobile sidebar when tapping outside
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth > 900) return;
+      if (!sidebar.classList.contains('open')) return;
+      if (sidebar.contains(e.target) || sidebarToggle.contains(e.target)) return;
+      sidebar.classList.remove('open');
+    });
+
     // Handle browser back/forward
     window.addEventListener('popstate', (e) => {
       if (e.state && e.state.lessonId) {
@@ -72,7 +82,7 @@ const App = {
     container.innerHTML = categories.map(([key, cat]) => {
       const count = getLessonsByCategory(key).length;
       return `
-        <button class="category-item" data-category="${key}">
+        <button type="button" class="category-item" data-category="${key}" aria-label="按类别筛选：${cat.label}">
           <span class="category-icon">${cat.icon}</span>
           <span class="category-name">${cat.label}</span>
           <span class="category-count">${count}</span>
@@ -87,7 +97,7 @@ const App = {
     const tags = getAllTags().slice(0, 20); // Top 20 tags
 
     container.innerHTML = tags.map(tag =>
-      `<button class="tag-btn" data-tag="${tag}">${tag}</button>`
+      `<button type="button" class="tag-btn" data-tag="${tag}" aria-label="按标签筛选：${tag}">${tag}</button>`
     ).join('');
   },
 
@@ -113,8 +123,11 @@ const App = {
     grid.innerHTML = lessons.map(lesson => {
       const cat = CATEGORIES[lesson.category];
       return `
-        <div class="lesson-card" onclick="App.showLesson('${lesson.id}')">
-          <div class="card-number">Lesson ${lesson.number}</div>
+        <button type="button" class="lesson-card" onclick="App.showLesson('${lesson.id}')" aria-label="查看第 ${lesson.number} 课：${lesson.title}">
+          <div class="card-number">
+            <span class="card-number-label">Lesson</span>
+            <span class="card-number-value">${lesson.number}</span>
+          </div>
           <div class="card-title">${this.highlight(lesson.title)}</div>
           <div class="card-chinese">${this.highlight(lesson.chinese_title)}</div>
           <div class="card-summary">${this.highlight(lesson.summary)}</div>
@@ -124,7 +137,7 @@ const App = {
             </span>
             <span class="card-arrow">→</span>
           </div>
-        </div>
+        </button>
       `;
     }).join('');
   },
@@ -139,6 +152,7 @@ const App = {
     this.clearActiveStates();
     document.getElementById('btn-all').classList.add('active');
     document.getElementById('panel-title').textContent = '全部 40 个课题';
+    this.closeSidebarOnMobile();
 
     this.renderLessonGrid(ALL_LESSONS);
   },
@@ -162,6 +176,7 @@ const App = {
     this.clearActiveStates();
     document.querySelector(`[data-category="${category}"]`).classList.add('active');
     document.getElementById('panel-title').textContent = `${cat.icon} ${cat.label}`;
+    this.closeSidebarOnMobile();
 
     this.renderLessonGrid(lessons);
   },
@@ -179,6 +194,7 @@ const App = {
     this.clearActiveStates();
     document.querySelector(`[data-tag="${tag}"]`).classList.add('active');
     document.getElementById('panel-title').textContent = `标签: ${tag}`;
+    this.closeSidebarOnMobile();
 
     this.renderLessonGrid(lessons);
   },
@@ -214,6 +230,7 @@ const App = {
     // Hide list, show detail
     document.getElementById('panel-list').classList.add('hidden');
     document.getElementById('panel-detail').classList.remove('hidden');
+    this.closeSidebarOnMobile();
 
     // Render detail
     this.renderLessonDetail(lesson);
@@ -279,7 +296,7 @@ const App = {
         <div class="related-label">相关课题 (${related.length})</div>
         <div class="related-grid">
           ${related.map(rel => `
-            <button class="related-card" onclick="App.showLesson('${rel.id}')">
+            <button type="button" class="related-card" onclick="App.showLesson('${rel.id}')" aria-label="查看相关课题：${rel.title}">
               <span class="related-num">L${rel.number}</span>
               <div class="related-info">
                 <div class="related-title">${rel.title}</div>
@@ -335,6 +352,13 @@ const App = {
     document.getElementById('sidebar').classList.toggle('open');
   },
 
+  // Close sidebar on mobile after selection
+  closeSidebarOnMobile() {
+    if (window.innerWidth <= 900) {
+      document.getElementById('sidebar').classList.remove('open');
+    }
+  },
+
   // Clear active states
   clearActiveStates() {
     document.querySelectorAll('.sidebar-btn, .category-item, .tag-btn').forEach(el => {
@@ -350,7 +374,8 @@ const App = {
   // Highlight search matches
   highlight(text) {
     if (!this.searchQuery || !text) return text;
-    const regex = new RegExp(`(${this.searchQuery})`, 'gi');
+    const escaped = this.searchQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${escaped})`, 'gi');
     return text.replace(regex, '<mark>$1</mark>');
   }
 };

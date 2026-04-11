@@ -1,111 +1,106 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>商务英语知识图谱 | Business English Knowledge Base</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <!-- Header -->
   <header class="site-header">
     <div class="header-inner">
-      <div class="header-brand" onclick="App.goHome()" style="cursor:pointer;">
-        <span class="brand-icon">📚</span>
+      <button type="button" class="header-brand" onclick="App.goHome()" aria-label="返回全部课题">
+        <span class="brand-icon" aria-hidden="true">📚</span>
         <div class="brand-text">
           <h1>商务英语知识图谱</h1>
           <p>Business English Knowledge Base · 40 Topics</p>
         </div>
-      </div>
+      </button>
+
       <div class="header-search">
+        <label class="sr-only" for="search-input">搜索课题</label>
         <input
           type="text"
           id="search-input"
           placeholder="搜索词汇、短语、主题... Search topics, phrases..."
           autocomplete="off"
         >
-        <span class="search-icon">🔍</span>
-        <button class="search-clear" id="search-clear" title="清除搜索">✕</button>
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <button type="button" class="search-clear" id="search-clear" title="清除搜索" aria-label="清除搜索">✕</button>
       </div>
     </div>
   </header>
 
-  <!-- Main layout -->
   <div class="layout">
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
+    <aside class="sidebar" id="sidebar" aria-label="课题导航">
       <div class="sidebar-inner">
 
-        <!-- All lessons toggle -->
         <div class="sidebar-section">
-          <button class="sidebar-btn active" id="btn-all" onclick="App.showAll()">
+          <button type="button" class="sidebar-btn active" id="btn-all" onclick="App.showAll()">
             全部课题 <span class="count-badge" id="count-all">40</span>
           </button>
         </div>
 
-        <!-- Category filter -->
         <div class="sidebar-section">
           <h3 class="sidebar-label">按类别浏览</h3>
-          <div id="category-list" class="category-list">
-            <!-- Populated by JS -->
-          </div>
+          <div id="category-list" class="category-list"></div>
         </div>
 
-        <!-- Tag cloud -->
         <div class="sidebar-section">
           <h3 class="sidebar-label">热门标签</h3>
-          <div id="tag-cloud" class="tag-cloud">
-            <!-- Populated by JS -->
-          </div>
+          <div id="tag-cloud" class="tag-cloud"></div>
         </div>
 
       </div>
     </aside>
 
-    <!-- Main content -->
     <main class="main-content" id="main-content">
-
-      <!-- Lesson list panel -->
       <section class="panel" id="panel-list">
+        <div class="panel-kicker" aria-hidden="true">
+          <span class="rule"></span>
+          <span class="kicker-text">Knowledge Catalogue</span>
+          <span class="rule"></span>
+        </div>
+
         <div class="panel-header">
           <h2 id="panel-title">全部 40 个课题</h2>
           <span class="result-count" id="result-count"></span>
         </div>
-        <div class="lesson-grid" id="lesson-grid">
-          <!-- Lesson cards populated by JS -->
-        </div>
+        <p class="panel-lead">在 40 个商务英语主题中按类别、标签与关键词导航，快速建立你的表达知识图谱。</p>
+
+        <div class="lesson-grid" id="lesson-grid"></div>
       </section>
 
-      <!-- Lesson detail panel -->
       <section class="panel hidden" id="panel-detail">
+        <div class="panel-kicker" aria-hidden="true">
+          <span class="rule"></span>
+          <span class="kicker-text">Lesson Notebook</span>
+          <span class="rule"></span>
+        </div>
+
         <div class="detail-nav">
-          <button class="btn-back" onclick="App.goBack()">← 返回列表</button>
+          <button type="button" class="btn-back" onclick="App.goBack()">← 返回列表</button>
           <div class="detail-nav-arrows">
-            <button class="btn-prev" id="btn-prev" onclick="App.navigateLesson(-1)" title="上一课">&#8592; 上一课</button>
-            <button class="btn-next" id="btn-next" onclick="App.navigateLesson(1)" title="下一课">下一课 &#8594;</button>
+            <button type="button" class="btn-prev" id="btn-prev" onclick="App.navigateLesson(-1)" title="上一课">&#8592; 上一课</button>
+            <button type="button" class="btn-next" id="btn-next" onclick="App.navigateLesson(1)" title="下一课">下一课 &#8594;</button>
           </div>
         </div>
 
-        <div class="detail-header" id="detail-header">
-          <!-- Populated by JS -->
-        </div>
+        <div class="detail-header" id="detail-header"></div>
 
-        <div class="detail-body" id="detail-body">
-          <!-- Populated by JS -->
-        </div>
+        <div class="detail-body" id="detail-body"></div>
 
-        <div class="related-section" id="related-section">
-          <!-- Populated by JS -->
-        </div>
+        <div class="related-section" id="related-section"></div>
       </section>
 
     </main>
   </div>
 
-  <!-- Mobile sidebar toggle -->
-  <button class="sidebar-toggle" id="sidebar-toggle" onclick="App.toggleSidebar()" title="菜单">☰</button>
+  <button type="button" class="sidebar-toggle" id="sidebar-toggle" onclick="App.toggleSidebar()" title="菜单" aria-label="打开导航">☰</button>
 
-  <!-- Data files -->
   <script src="data/lessons_01_08.js"></script>
   <script src="data/lessons_09_16.js"></script>
   <script src="data/lessons_17_24.js"></script>
