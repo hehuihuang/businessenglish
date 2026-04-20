@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html lang="zh-CN" id="top">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Backend Developer Interview Dialogue Practice | Lesson Notebook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f6f1e8;
+      --paper-strong: rgba(255, 252, 246, 0.92);
+      --ink: #1e1a16;
+      --ink-soft: #5f584f;
+      --line: #e4d8c9;
+      --accent: #94631a;
+      --accent-soft: #f3e4ca;
+      --shadow: 0 22px 48px rgba(45, 33, 17, 0.08);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 18px;
+      --radius-sm: 13px;
+      --font-display: "Playfair Display", Georgia, serif;
+      --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+      --font-mono: "IBM Plex Mono", Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--ink);
+      line-height: 1.7;
+      background:
+        radial-gradient(circle at top left, rgba(183, 132, 45, 0.16), transparent 34%),
+        radial-gradient(circle at right 18%, rgba(170, 127, 58, 0.08), transparent 22%),
+        linear-gradient(180deg, #fcfaf6 0%, var(--paper) 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image: radial-gradient(rgba(40, 28, 13, 0.08) 0.45px, transparent 0.45px);
+      background-size: 4px 4px;
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 28px auto 56px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148, 99, 26, 0.2);
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(249, 241, 228, 0.92)),
+        var(--paper-strong);
+      box-shadow: var(--shadow);
+      padding: 34px;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(120deg, rgba(255,255,255,0.42), transparent 38%),
+        radial-gradient(circle at 88% 6%, rgba(183, 132, 45, 0.16), transparent 26%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow::before,
+    .eyebrow::after {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: rgba(148, 99, 26, 0.32);
+    }
+
+    h1 {
+      position: relative;
+      z-index: 1;
+      margin: 18px 0 14px;
+      font-family: var(--font-display);
+      font-size: clamp(2.45rem, 2rem + 2vw, 4rem);
+      line-height: 0.98;
+      letter-spacing: -0.03em;
+      max-width: 12ch;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(290px, 0.82fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .hero-copy {
+      max-width: 720px;
+    }
+
+    .lead-zh {
+      margin: 0 0 12px;
+      font-size: 1.14rem;
+      line-height: 1.85;
+      color: #2d2721;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
+    }
+
+    .lead-en {
+      margin: 0;
+      font-size: 0.98rem;
+      line-height: 1.75;
+      color: var(--ink-soft);
+    }
+
+    .hero-source {
+      margin: 12px 0 0;
+      font-size: 0.92rem;
+      line-height: 1.65;
+      color: #746a5f;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.84);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 99, 26, 0.24);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    .button:focus-visible {
+      outline: 2px solid rgba(148, 99, 26, 0.55);
+      outline-offset: 2px;
+    }
+
+    .button.primary {
+      background: linear-gradient(135deg, rgba(148, 99, 26, 0.18), rgba(217, 184, 123, 0.12));
+      color: #7a5308;
+    }
+
+    .button.secondary {
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--ink);
+    }
+
+    .hero-panel {
+      border: 1px solid rgba(148, 99, 26, 0.18);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.74);
+      padding: 18px;
+      display: grid;
+      gap: 18px;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-panel-title {
+      margin: 0 0 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .hero-panel-copy {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.72;
+      color: var(--ink-soft);
+    }
+
+    .source-note {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 1.06rem;
+      line-height: 1.45;
+      color: var(--ink);
+    }
+
+    .guide-list {
+      margin: 0;
+      padding-left: 20px;
+      display: grid;
+      gap: 8px;
+      color: var(--ink-soft);
+      font-size: 0.93rem;
+    }
+
+    .content {
+      display: grid;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .empty-state {
+      border: 1px dashed rgba(148, 99, 26, 0.28);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.76);
+      padding: 34px 28px;
+      text-align: center;
+      box-shadow: 0 12px 28px rgba(45, 33, 17, 0.04);
+    }
+
+    .empty-state-kicker {
+      margin-bottom: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .empty-state h2 {
+      margin: 0 0 10px;
+      font-family: var(--font-display);
+      font-size: 2rem;
+      line-height: 1.05;
+      color: var(--ink);
+    }
+
+    .empty-state p {
+      max-width: 58ch;
+      margin: 0 auto;
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--ink-soft);
+    }
+
+    .note-card {
+      --note-accent: #8d6738;
+      --note-border: rgba(141, 103, 56, 0.18);
+      --note-head-bg: rgba(248, 242, 234, 0.9);
+      --note-en-bg: rgba(255, 253, 248, 0.95);
+      --note-zh-bg: rgba(248, 241, 231, 0.95);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--note-border);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: 0 12px 28px rgba(45, 33, 17, 0.05);
+    }
+
+    .note-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--note-accent), rgba(255, 255, 255, 0.2));
+    }
+
+    .note-card.note-question {
+      --note-accent: #b37418;
+      --note-border: rgba(179, 116, 24, 0.22);
+      --note-head-bg: rgba(255, 247, 235, 0.94);
+      --note-en-bg: rgba(255, 251, 242, 0.98);
+      --note-zh-bg: rgba(252, 242, 224, 0.94);
+    }
+
+    .note-card.note-answer {
+      --note-accent: #855e2d;
+      --note-border: rgba(133, 94, 45, 0.2);
+      --note-head-bg: rgba(250, 243, 235, 0.94);
+      --note-en-bg: rgba(255, 252, 247, 0.98);
+      --note-zh-bg: rgba(245, 236, 226, 0.94);
+    }
+
+    .note-head {
+      display: grid;
+      gap: 10px;
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid var(--note-border);
+      background: var(--note-head-bg);
+    }
+
+    .note-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .note-index {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 38px;
+      height: 38px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid var(--note-border);
+      background: rgba(255, 255, 255, 0.86);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--note-accent);
+    }
+
+    .note-tag {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--note-accent);
+    }
+
+    .note-caption {
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.62;
+      color: var(--ink-soft);
+    }
+
+    .note-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      padding: 18px;
+    }
+
+    .lang-panel {
+      border: 1px solid var(--note-border);
+      border-radius: var(--radius-md);
+      padding: 18px;
+    }
+
+    .lang-en {
+      background: var(--note-en-bg);
+    }
+
+    .lang-zh {
+      background: var(--note-zh-bg);
+    }
+
+    .lang-label {
+      margin-bottom: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--note-accent);
+    }
+
+    .lang-panel p {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.88;
+      letter-spacing: 0.012em;
+    }
+
+    .lang-en p {
+      color: var(--ink);
+    }
+
+    .lang-zh p {
+      color: #544c42;
+    }
+
+    .footer {
+      padding: 22px 8px 0;
+      text-align: center;
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+    }
+
+    .page-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    @media (max-width: 840px) {
+      .page {
+        width: min(100vw - 18px, 1180px);
+        margin: 10px auto 28px;
+      }
+
+      .hero {
+        padding: 22px 16px 18px;
+      }
+
+      .hero-grid,
+      .note-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .page-actions {
+        flex-direction: column;
+      }
+
+      .note-head,
+      .note-grid {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .empty-state {
+        padding: 26px 18px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      .button:hover {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div class="eyebrow">Lesson Notebook</div>
+      <h1>Backend Developer Interview Dialogue Practice</h1>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="lead-zh">这里整理了 68 张可直接练习的面试卡片，只保留问题和答案表达，方便你跟读、复述和记忆。</p>
+          <p class="lead-en">This notebook keeps 68 practice-ready cards and shows only question and answer material for faster review.</p>
+          <p class="hero-source">Source notebook: 程序员面试英语｜后端开发面试对话｜IT职场英语提升｜职场英语口语训练｜实用英语｜軟體工程師英文面試</p>
+          <div class="hero-meta">
+            <span class="chip">Question & Answer Only</span>
+            <span class="chip">QKJ6YLXpLJM</span>
+          </div>
+          <div class="hero-actions">
+            <a class="button primary" href="../index.html#lesson-job-09">Back to Lesson</a>
+            <a class="button secondary" href="https://www.youtube.com/watch?v=QKJ6YLXpLJM" target="_blank" rel="noopener noreferrer">Watch YouTube</a>
+          </div>
+        </div>
+        <aside class="hero-panel">
+          <div>
+            <div class="hero-panel-title">Notebook Source</div>
+            <p class="source-note">程序员面试英语｜后端开发面试对话｜IT职场英语提升｜职场英语口语训练｜实用英语｜軟體工程師英文面試</p>
+          </div>
+          <div>
+            <div class="hero-panel-title">Reading Guide</div>
+            <p class="hero-panel-copy">This page keeps only the practice-ready question and answer cards, so you can review without extra commentary blocks.</p>
+          </div>
+          <div>
+            <div class="hero-panel-title">How To Use It</div>
+            <ol class="guide-list">
+              <li>Read the English block first and try to answer or paraphrase it yourself.</li>
+              <li>Pause briefly before checking the Chinese panel for meaning and nuance.</li>
+              <li>Reuse the answer lines as interview-ready phrasing you can memorize and adapt.</li>
+            </ol>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <main class="content">
+      
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">01</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Hi, welcome. I&#39;m Sienna, the tech lead here. How are you doing today?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>嗨，欢迎你。我是 Sienna，这里的技术负责人。你今天感觉怎么样？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">02</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Hi, Sienna. Nice to meet you. I&#39;m doing well, thanks. How about you?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>你好，Sienna，很高兴见到你。我很好，谢谢。您呢？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">03</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>I&#39;m good, thanks. Let&#39;s get started. Can you start by introducing yourself?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>我也很好，谢谢。我们开始吧。你先做个自我介绍好吗？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">04</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Sure. I&#39;m Jared, a back-end developer. I graduated two years ago from a university in Shanghai.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>当然。我叫 Jared，是后端开发工程师。我两年前从上海的一所大学毕业。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">05</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Great. Thanks for the intro. What skills do you have?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>很好，谢谢你的介绍。你有哪些技能？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">06</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>I picked up Python, JavaScript, and a few web frameworks in school. I also learned about the e-commerce business.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>在学校里我学了 Python、JavaScript 和一些 Web 框架，也了解电商业务。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">07</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Which JavaScript frameworks are you familiar with?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>你熟悉哪些 JavaScript 框架？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">08</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Mainly React and a bit of Vue.js. I used React for a small project during school.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>主要是 React，也接触过一点 Vue.js。我在学校用 React 做过一个小项目。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">09</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Nice. Have you worked with any front-end frameworks in your current job?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>不错。你在现在的工作里有用过前端框架吗？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">10</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Not much. I focus mostly on backend, but I work closely with front-end developers.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>不多，我主要做后端，但会和前端同事紧密合作。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">11</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>That sounds like a good mix. What did you do after graduation?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>这听起来搭配得很好。你毕业后做了什么？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">12</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>I worked at a cross-border e-commerce company. My main job was backend development using Django.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>我在一家跨境电商公司工作，主要负责用 Django 做后端开发。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">13</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>We used Django, MySQL, and Redis, and followed RESTful API design. I also used Git for version control and deployed with Docker.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>我们使用 Django、MySQL 和 Redis，并遵循 RESTful API 的设计规范。我也用 Git 做版本管理，并用 Docker 做部署。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">14</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>It was a great learning experience. I worked with a talented team and gained real-world insights.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>这段经历让我学到了很多。我和很优秀的团队合作，也获得了很多真实的业务理解。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">15</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Can you give an example of how you collaborate with front-end developers?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>你能举个例子说明你是怎么和前端开发合作的吗？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">16</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Impressive. How did you learn all these technologies?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>很不错。你是怎么学会这些技术的？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">17</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>That&#39;s great to hear. How do you ensure the reliability of the services you build?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>很高兴听到这些。你如何保证你构建的服务的可靠性？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">18</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>We use several strategies. For example, Redis Sentinel helps us monitor the cluster and handle failover automatically.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>我们会采用多种策略。比如用 Redis Sentinel 监控集群，并自动处理故障切换。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">19</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Do you use any automated monitoring tools?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>你们会用自动化监控工具吗？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">20</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Yes. We use Prometheus and Grafana to track system metrics and alerts.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>会的，我们用 Prometheus 和 Grafana 来跟踪系统指标和告警。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">21</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>How do you handle incidents if something goes wrong?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>如果出了问题，你会怎么处理线上事故？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">22</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>We have an on-call rotation. When alerted, I check logs and metrics, then try to fix the issue quickly.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>我们有值班轮值机制。收到告警后，我会先看日志和监控指标，然后尽快定位并修复问题。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">23</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Can you tell me about a tough problem you faced at work?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>能聊聊你在工作中遇到过的一个棘手问题吗？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">24</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>One time, we ran a cat food ad campaign on YouTube. It brought a huge traffic spike to our site and caused timeouts.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>有一次我们在 YouTube 上投放猫粮广告，带来了一波巨大的流量峰值，网站出现了超时。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">25</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>How did you prepare for future spikes?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>那你们后来如何应对未来的流量高峰？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">26</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>We improved caching and optimized database queries. We also set up rate limiting and load balancing.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>我们加强了缓存并优化了数据库查询，同时做了限流和负载均衡。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">27</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Did you use any cloud services or CDNs?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>你们用了云服务或 CDN 吗？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">28</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Yes. We used Cloudflare as a CDN to reduce server load.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>用了，我们用 Cloudflare 作为 CDN 来降低服务器压力。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">29</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Any other challenging issues you dealt with?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>你还处理过其他有挑战的问题吗？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">30</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Good troubleshooting. How about database issues?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>排查得很好。那数据库方面的问题呢？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">31</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Sounds like you have solid experience. Since this role is backend-focused, how comfortable are you with API design?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>听起来你经验很扎实。这个岗位偏后端，你对 API 设计有多熟悉？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">32</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Have you worked with GraphQL or other API styles?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>你接触过 GraphQL 或其他 API 风格吗？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">33</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>No. I&#39;ve only worked with REST APIs so far.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>目前还没有，我目前只做过 REST API。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">34</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>How do you measure the success of your backend improvements?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>你如何衡量后端改进是否有效？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">35</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>That&#39;s thorough. How do you stay updated with new backend technologies?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>很全面。你如何跟进新的后端技术？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">36</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>I read tech blogs, attend webinars, and follow industry leaders.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>我会看技术博客、参加线上研讨会，也会关注业内大咖。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">37</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Any favorite blogs or resources?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>有哪些你喜欢的博客或资源？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">38</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>I like Medium&#39;s programming section, Hacker News, and the official Django blog.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>我喜欢看 Medium 的编程频道、Hacker News，以及 Django 官方博客。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">39</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Do you contribute to open source?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>你有参与开源吗？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">40</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Not yet, but I plan to start soon.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>还没有，但我计划尽快开始。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">41</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Let me ask: how do you handle security in your backend services?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>我再问一个：你在后端服务里如何做安全？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">42</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Have you worked with OAuth or other authentication methods?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>你用过 OAuth 或其他认证方式吗？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">43</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Yes. I integrated OAuth 2.0 for third-party login using Google and Facebook.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>用过。我集成过 OAuth 2.0，实现 Google 和 Facebook 的第三方登录。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">44</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>How do you handle scaling your services as traffic grows?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>随着流量增长，你们如何做服务扩展？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">45</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Have you had experience with microservices?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>你有做过微服务吗？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">46</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>What challenges did you face when moving to microservices?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>拆微服务时你遇到过哪些挑战？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">47</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>How do you test your backend code?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>你怎么测试后端代码？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">48</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Do you do any performance testing?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>你会做性能测试吗？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">49</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Yes. We use load testing tools like JMeter to check performance under heavy traffic.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>会，我们用 JMeter 之类的压测工具来验证高并发下的表现。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">50</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Do you prefer working independently or in a team?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>你更喜欢独立工作还是团队协作？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">51</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>I enjoy both. I&#39;m comfortable working alone, but I really value teamwork for solving problems.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>我都喜欢。我能独立完成任务，但也很重视团队协作来一起解决复杂问题。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">52</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>How do you handle code reviews?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>你怎么做代码评审？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">53</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>I do thorough reviews, looking for bugs and style issues. I also give constructive feedback and learn from others&#39; reviews.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>我会认真 review，重点看 bug 和代码风格问题；也会给出建设性反馈，并从别人的 review 中学习。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">54</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>How often does the team release new features?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>团队一般多久发布一次新功能？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">55</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>We try to release at least every two weeks, sometimes more often.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>我们尽量两周至少发布一次，有时会更频繁。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">56</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Do you practice continuous deployment or manual releases?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>你们是持续部署还是手动发布？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">57</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>We use CI/CD for automatic deployment after tests pass. It helps catch issues early.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>我们用 CI/CD，测试通过后自动部署，这能更早发现问题。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">58</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>What challenges is your team facing right now?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>你们团队目前最大的挑战是什么？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">59</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>We&#39;re working on improving scalability and reducing technical debt.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>我们正在提升可扩展性，同时减少技术债。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">60</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>How does the team support learning and growth?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>团队如何支持学习和成长？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">61</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>We have regular tech talks and encourage attending conferences. Mentoring is also a big part of our culture.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>我们会定期做技术分享，也鼓励参加会议；导师制也是文化的一部分。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">62</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>That&#39;s a good attitude. Do you have any questions for me about the company or team?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>态度很好。你对公司或团队有什么想了解的吗？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">63</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Yes. Could you tell me about the company&#39;s main business goals for this year?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>有的。您能介绍一下公司今年的主要业务目标吗？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">64</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>That&#39;s exciting. How big is the technical team and how do you usually collaborate?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>听起来很不错。技术团队规模多大？平时怎么协作？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">65</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Sounds like a productive environment. What technologies do you mostly use here?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>听起来很高效。你们主要使用哪些技术栈？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">66</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>That&#39;s very close to what I&#39;m used to. I think I could onboard quickly.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>这些和我熟悉的很接近。我觉得我能很快上手融入。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">67</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Excellent. Thanks for your time today, Jared. We&#39;ll be in touch soon.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>很好。谢谢你今天的时间，Jared。我们很快会联系你。</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-answer">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">68</span>
+            <span class="note-tag">Answer Line</span>
+          </div>
+          <p class="note-caption">Treat this as a compact response pattern you can shadow, adapt, and memorize.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Thank you. I appreciate the opportunity. Looking forward to hearing from you.</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>谢谢您。我很感谢这次机会，期待您的回复。</p>
+          </section>
+        </div>
+      </article>
+    
+    </main>
+
+    <div class="page-actions">
+      <a class="button secondary" href="#top">Back to Top</a>
+      <a class="button primary" href="../index.html">Back to Home</a>
+    </div>
+
+    <footer class="footer">
+      Source document: 程序员面试英语｜后端开发面试对话｜IT职场英语提升｜职场英语口语训练｜实用英语｜軟體工程師英文面試
+    </footer>
+  </div>
+</body>
+</html>
