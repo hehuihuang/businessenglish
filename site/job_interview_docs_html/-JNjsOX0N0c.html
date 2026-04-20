@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-CN" id="top">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Job Interview Dos and Don&#39;ts | Lesson Notebook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f6f1e8;
+      --paper-strong: rgba(255, 252, 246, 0.92);
+      --ink: #1e1a16;
+      --ink-soft: #5f584f;
+      --line: #e4d8c9;
+      --accent: #94631a;
+      --accent-soft: #f3e4ca;
+      --shadow: 0 22px 48px rgba(45, 33, 17, 0.08);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 18px;
+      --radius-sm: 13px;
+      --font-display: "Playfair Display", Georgia, serif;
+      --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+      --font-mono: "IBM Plex Mono", Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--ink);
+      line-height: 1.7;
+      background:
+        radial-gradient(circle at top left, rgba(183, 132, 45, 0.16), transparent 34%),
+        radial-gradient(circle at right 18%, rgba(170, 127, 58, 0.08), transparent 22%),
+        linear-gradient(180deg, #fcfaf6 0%, var(--paper) 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image: radial-gradient(rgba(40, 28, 13, 0.08) 0.45px, transparent 0.45px);
+      background-size: 4px 4px;
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 28px auto 56px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148, 99, 26, 0.2);
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(249, 241, 228, 0.92)),
+        var(--paper-strong);
+      box-shadow: var(--shadow);
+      padding: 34px;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(120deg, rgba(255,255,255,0.42), transparent 38%),
+        radial-gradient(circle at 88% 6%, rgba(183, 132, 45, 0.16), transparent 26%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow::before,
+    .eyebrow::after {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: rgba(148, 99, 26, 0.32);
+    }
+
+    h1 {
+      position: relative;
+      z-index: 1;
+      margin: 18px 0 14px;
+      font-family: var(--font-display);
+      font-size: clamp(2.45rem, 2rem + 2vw, 4rem);
+      line-height: 0.98;
+      letter-spacing: -0.03em;
+      max-width: 12ch;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(290px, 0.82fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .hero-copy {
+      max-width: 720px;
+    }
+
+    .lead-zh {
+      margin: 0 0 12px;
+      font-size: 1.14rem;
+      line-height: 1.85;
+      color: #2d2721;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
+    }
+
+    .lead-en {
+      margin: 0;
+      font-size: 0.98rem;
+      line-height: 1.75;
+      color: var(--ink-soft);
+    }
+
+    .hero-source {
+      margin: 12px 0 0;
+      font-size: 0.92rem;
+      line-height: 1.65;
+      color: #746a5f;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.84);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 99, 26, 0.24);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    .button:focus-visible {
+      outline: 2px solid rgba(148, 99, 26, 0.55);
+      outline-offset: 2px;
+    }
+
+    .button.primary {
+      background: linear-gradient(135deg, rgba(148, 99, 26, 0.18), rgba(217, 184, 123, 0.12));
+      color: #7a5308;
+    }
+
+    .button.secondary {
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--ink);
+    }
+
+    .hero-panel {
+      border: 1px solid rgba(148, 99, 26, 0.18);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.74);
+      padding: 18px;
+      display: grid;
+      gap: 18px;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-panel-title {
+      margin: 0 0 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .hero-panel-copy {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.72;
+      color: var(--ink-soft);
+    }
+
+    .source-note {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 1.06rem;
+      line-height: 1.45;
+      color: var(--ink);
+    }
+
+    .guide-list {
+      margin: 0;
+      padding-left: 20px;
+      display: grid;
+      gap: 8px;
+      color: var(--ink-soft);
+      font-size: 0.93rem;
+    }
+
+    .content {
+      display: grid;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .empty-state {
+      border: 1px dashed rgba(148, 99, 26, 0.28);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.76);
+      padding: 34px 28px;
+      text-align: center;
+      box-shadow: 0 12px 28px rgba(45, 33, 17, 0.04);
+    }
+
+    .empty-state-kicker {
+      margin-bottom: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .empty-state h2 {
+      margin: 0 0 10px;
+      font-family: var(--font-display);
+      font-size: 2rem;
+      line-height: 1.05;
+      color: var(--ink);
+    }
+
+    .empty-state p {
+      max-width: 58ch;
+      margin: 0 auto;
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--ink-soft);
+    }
+
+    .note-card {
+      --note-accent: #8d6738;
+      --note-border: rgba(141, 103, 56, 0.18);
+      --note-head-bg: rgba(248, 242, 234, 0.9);
+      --note-en-bg: rgba(255, 253, 248, 0.95);
+      --note-zh-bg: rgba(248, 241, 231, 0.95);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--note-border);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: 0 12px 28px rgba(45, 33, 17, 0.05);
+    }
+
+    .note-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--note-accent), rgba(255, 255, 255, 0.2));
+    }
+
+    .note-card.note-question {
+      --note-accent: #b37418;
+      --note-border: rgba(179, 116, 24, 0.22);
+      --note-head-bg: rgba(255, 247, 235, 0.94);
+      --note-en-bg: rgba(255, 251, 242, 0.98);
+      --note-zh-bg: rgba(252, 242, 224, 0.94);
+    }
+
+    .note-card.note-answer {
+      --note-accent: #855e2d;
+      --note-border: rgba(133, 94, 45, 0.2);
+      --note-head-bg: rgba(250, 243, 235, 0.94);
+      --note-en-bg: rgba(255, 252, 247, 0.98);
+      --note-zh-bg: rgba(245, 236, 226, 0.94);
+    }
+
+    .note-head {
+      display: grid;
+      gap: 10px;
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid var(--note-border);
+      background: var(--note-head-bg);
+    }
+
+    .note-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .note-index {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 38px;
+      height: 38px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid var(--note-border);
+      background: rgba(255, 255, 255, 0.86);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--note-accent);
+    }
+
+    .note-tag {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--note-accent);
+    }
+
+    .note-caption {
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.62;
+      color: var(--ink-soft);
+    }
+
+    .note-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      padding: 18px;
+    }
+
+    .lang-panel {
+      border: 1px solid var(--note-border);
+      border-radius: var(--radius-md);
+      padding: 18px;
+    }
+
+    .lang-en {
+      background: var(--note-en-bg);
+    }
+
+    .lang-zh {
+      background: var(--note-zh-bg);
+    }
+
+    .lang-label {
+      margin-bottom: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--note-accent);
+    }
+
+    .lang-panel p {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.88;
+      letter-spacing: 0.012em;
+    }
+
+    .lang-en p {
+      color: var(--ink);
+    }
+
+    .lang-zh p {
+      color: #544c42;
+    }
+
+    .footer {
+      padding: 22px 8px 0;
+      text-align: center;
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+    }
+
+    .page-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    @media (max-width: 840px) {
+      .page {
+        width: min(100vw - 18px, 1180px);
+        margin: 10px auto 28px;
+      }
+
+      .hero {
+        padding: 22px 16px 18px;
+      }
+
+      .hero-grid,
+      .note-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .page-actions {
+        flex-direction: column;
+      }
+
+      .note-head,
+      .note-grid {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .empty-state {
+        padding: 26px 18px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      .button:hover {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div class="eyebrow">Lesson Notebook</div>
+      <h1>English Job Interview Dos and Don&#39;ts</h1>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="lead-zh">这里整理了 7 张可直接练习的面试卡片，只保留问题和答案表达，方便你跟读、复述和记忆。</p>
+          <p class="lead-en">This notebook keeps 7 practice-ready cards and shows only question and answer material for faster review.</p>
+          <p class="hero-source">Source notebook: English Job Interview Dos &amp; Dont&#39;s! _ English Conversation Practice</p>
+          <div class="hero-meta">
+            <span class="chip">Question & Answer Only</span>
+            <span class="chip">-JNjsOX0N0c</span>
+          </div>
+          <div class="hero-actions">
+            <a class="button primary" href="../index.html#lesson-job-06">Back to Lesson</a>
+            <a class="button secondary" href="https://www.youtube.com/watch?v=-JNjsOX0N0c" target="_blank" rel="noopener noreferrer">Watch YouTube</a>
+          </div>
+        </div>
+        <aside class="hero-panel">
+          <div>
+            <div class="hero-panel-title">Notebook Source</div>
+            <p class="source-note">English Job Interview Dos &amp; Dont&#39;s! _ English Conversation Practice</p>
+          </div>
+          <div>
+            <div class="hero-panel-title">Reading Guide</div>
+            <p class="hero-panel-copy">This page keeps only the practice-ready question and answer cards, so you can review without extra commentary blocks.</p>
+          </div>
+          <div>
+            <div class="hero-panel-title">How To Use It</div>
+            <ol class="guide-list">
+              <li>Read the English block first and try to answer or paraphrase it yourself.</li>
+              <li>Pause briefly before checking the Chinese panel for meaning and nuance.</li>
+              <li>Reuse the answer lines as interview-ready phrasing you can memorize and adapt.</li>
+            </ol>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <main class="content">
+      
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">01</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>TK: Hello, Ms. Smith. I&#39;m Tom Kelley. Thanks so much for coming in. RS: It&#39;s my pleasure. Thanks so much for meeting with me. TK: Of course. Did you have any trouble finding the office?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>TK：你好，Smith 女士。我是 Tom Kelley。非常感谢你来面试。RS：不客气，也非常感谢你抽时间见我。TK：当然。找办公室的时候有遇到什么困难吗？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">02</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>TK: Can you tell me about a time when you suffered a setback and had to maintain your enthusiasm? The interviewer may ask questions like this to understand how you perform in stressful situations. They may ask about your past experience, or a hypothetical situation. Similar questions include: Tell me about a time you dealt with a difficult client or coworker. Tell me about a time you responded to a crisis. Tell me about a time you gave difficult feedback. How would you handle a situation where you and your supervisor disagreed about an issue or course of action?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>TK：你能讲一次你遭遇挫折、但仍然保持积极态度的经历吗？面试官问这种问题，是想了解你在压力情境下如何表现。他们可能会问你真实发生过的经历，也可能给你一个假设场景来考察你的应对方式。类似的问题还包括：讲一次你处理难缠客户或同事的经历。讲一次你应对危机的经历。讲一次你不得不给出负面反馈的经历。如果你和上司在某个问题或行动方案上意见不一致，你会怎么处理？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">03</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>TK: Fear of public speaking is very common. I&#39;m in the same boat. Where do you see yourself in five years? Common question: &quot;Where do you see yourself in five years?&quot; This is a chance to share your goals and show you understand what&#39;s realistic. It also shows your ambition. Consider variations: where do you see yourself in one year, and where do you see yourself in ten years?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>TK：害怕公开演讲很常见，我也一样。那你觉得五年后你会在哪里？常见问题：“五年后你希望自己处于什么位置？”这是一个让你表达职业目标的机会，同时也要体现你对“在一定时间内能实现什么”有现实判断。它也会反映你的野心与动力。你还可以顺带思考两个变体：一年后你会怎样？十年后你会怎样？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">04</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Start with: &quot;In five years, I would like to be ___.&quot; Practice out loud. If you only practice in your head, it will feel much more stressful when you&#39;re in the room speaking for the first time. Record yourself and critique: what was unclear, and how can you say it more concisely?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>可以用这句话开头：“五年后，我希望自己能成为/处于__。”一定要大声练习。如果你只在脑子里想，到了面试现场第一次开口会更紧张。把回答录下来并自我复盘：哪里不清晰？怎样能更简洁地表达？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">05</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>RS: Yes. Imagine you&#39;re looking back on this hiring decision in a year. The person you hired has exceeded your expectations. What did he or she do that impressed you most?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>RS：有的。假设一年后你回顾这次招聘决定：你录用的人远远超出了你的预期。那么他/她做了什么，最让你印象深刻？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">06</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>TK: Great question. In one year, the person would have spent time learning from the team and long-time employees, then started making informed changes. I want the team to be a well-oiled machine: bouncing ideas off each other, coming up with new designs, and making headway into new markets. RS: That&#39;s helpful. It&#39;s good to know the expectations. Can you tell me a little more about the team I&#39;d be working with?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>TK：好问题。我认为一年内，这个人会先花时间向团队和资深成员学习，然后基于充分理解再做出有依据的调整。我希望团队像一台运转良好的机器：彼此交流想法、产出新的设计，并在新市场上取得实质进展。RS：这很有帮助，知道你们的期待很重要。你能再介绍一下我将要共事的团队吗？</p>
+          </section>
+        </div>
+      </article>
+    
+      <article class="note-card note-question">
+        <div class="note-head">
+          <div class="note-meta">
+            <span class="note-index">07</span>
+            <span class="note-tag">Question Drill</span>
+          </div>
+          <p class="note-caption">Use this as a practice prompt and answer it aloud before checking the translation.</p>
+        </div>
+        <div class="note-grid">
+          <section class="lang-panel lang-en">
+            <div class="lang-label">EN</div>
+            <p>Hopefully, by the end of the interview you feel more comfortable and confident than when you arrived. We&#39;ll discuss body language, humor, and expression, and how to use them to your advantage in an interview. When you watch a mock interview, notice posture and facial expressions: what do they communicate?</p>
+          </section>
+          <section class="lang-panel lang-zh">
+            <div class="lang-label">ZH</div>
+            <p>希望在面试结束时，你会比刚进门时更放松、更自信。接下来我们会聊聊肢体语言、幽默和表情，以及如何在面试中把它们转化为优势。观看模拟面试时，留意双方的坐姿和面部表情：它们向你传递了什么信息？</p>
+          </section>
+        </div>
+      </article>
+    
+    </main>
+
+    <div class="page-actions">
+      <a class="button secondary" href="#top">Back to Top</a>
+      <a class="button primary" href="../index.html">Back to Home</a>
+    </div>
+
+    <footer class="footer">
+      Source document: English Job Interview Dos &amp; Dont&#39;s! _ English Conversation Practice
+    </footer>
+  </div>
+</body>
+</html>
