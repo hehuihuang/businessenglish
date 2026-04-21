@@ -2101,14 +2101,15 @@ mark {
 
   .layout {
     display: block;
-    padding: 20px 16px 64px;
+    padding: 20px 16px 96px;
+    padding: 20px 16px calc(96px + env(safe-area-inset-bottom));
   }
 
   .sidebar {
     position: fixed;
     top: var(--header-height);
     left: 0;
-    width: min(88vw, 320px);
+    width: min(90vw, 320px);
     max-height: calc(100vh - var(--header-height));
     border-radius: 0 12px 12px 0;
     border-left: none;
@@ -2125,6 +2126,10 @@ mark {
   .sidebar-toggle {
     display: grid;
     place-items: center;
+    left: auto;
+    right: 18px;
+    bottom: 18px;
+    bottom: calc(18px + env(safe-area-inset-bottom));
   }
 
   .main-content {
@@ -2150,9 +2155,80 @@ mark {
   .context-bar {
     flex-direction: column;
     align-items: stretch;
+    gap: 14px;
+    padding: 14px;
+    margin-bottom: 18px;
   }
 
   .lesson-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .panel-header {
+    align-items: flex-start;
+    gap: 8px 12px;
+  }
+
+  .panel-header h2 {
+    font-size: clamp(1.7rem, 1.34rem + 2.4vw, 2.2rem);
+  }
+
+  .panel-lead {
+    max-width: 60ch;
+    margin-bottom: 18px;
+  }
+
+  .lesson-card {
+    padding: 16px 16px 14px;
+  }
+
+  .card-title {
+    font-size: 1.18rem;
+  }
+
+  .card-summary {
+    font-size: 0.92rem;
+    margin-bottom: 12px;
+  }
+
+  .card-footer {
+    flex-wrap: wrap;
+  }
+
+  .detail-nav {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .detail-nav-arrows {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .btn-back,
+  .btn-prev,
+  .btn-next,
+  .context-reset {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .detail-header {
+    padding: 24px 20px;
+  }
+
+  .detail-summary {
+    font-size: 0.95rem;
+  }
+
+  .section-heading {
+    padding: 12px 16px;
+  }
+
+  .source-grid {
     grid-template-columns: 1fr;
   }
 
@@ -2171,10 +2247,36 @@ mark {
   }
 }
 
-@media (max-width: 680px) {
+@media (max-width: 760px) {
+  :root {
+    --header-height: 124px;
+  }
+
   .header-inner {
-    padding: 12px 14px;
-    gap: 12px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px 16px 14px;
+  }
+
+  .header-brand,
+  .header-search {
+    width: 100%;
+  }
+
+  .header-search input {
+    min-height: 46px;
+  }
+}
+
+@media (max-width: 680px) {
+  :root {
+    --header-height: 118px;
+  }
+
+  .header-inner {
+    padding: 12px 14px 14px;
+    gap: 10px;
   }
 
   .hero-shell {
@@ -2205,9 +2307,23 @@ mark {
     display: none;
   }
 
+  .brand-text h1 {
+    font-size: 1.05rem;
+  }
+
+  .header-search {
+    width: 100%;
+  }
+
   .header-search input {
-    min-height: 44px;
+    min-height: 46px;
     font-size: 0.93rem;
+    padding-left: 42px;
+    padding-right: 42px;
+  }
+
+  .search-icon {
+    left: 14px;
   }
 
   .panel-kicker {
@@ -2219,17 +2335,114 @@ mark {
     letter-spacing: 0.12em;
   }
 
+  .panel-header {
+    gap: 8px;
+  }
+
+  .panel-header h2 {
+    font-size: clamp(1.52rem, 1.26rem + 2.2vw, 1.9rem);
+  }
+
+  .result-count {
+    font-size: 0.7rem;
+  }
+
   .panel-lead {
-    font-size: 0.96rem;
+    font-size: 0.92rem;
+    margin-bottom: 14px;
+  }
+
+  .context-bar {
+    gap: 12px;
+    border-radius: 16px;
+    padding: 12px;
     margin-bottom: 16px;
   }
 
+  .context-label {
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+  }
+
+  .context-description {
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+
+  .lesson-grid {
+    gap: 12px;
+  }
+
+  .lesson-card {
+    padding: 15px 14px 13px;
+  }
+
+  .card-number {
+    margin-bottom: 6px;
+  }
+
+  .card-number-value {
+    font-size: 1.18rem;
+  }
+
+  .card-title {
+    font-size: 1.08rem;
+  }
+
+  .card-chinese {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  .card-summary {
+    -webkit-line-clamp: 4;
+    font-size: 0.9rem;
+  }
+
+  .card-category {
+    min-height: 30px;
+    padding: 4px 9px;
+  }
+
   .detail-nav {
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
   .detail-header {
     padding: 20px 16px;
+  }
+
+  .detail-title {
+    font-size: clamp(1.48rem, 1.2rem + 3vw, 1.85rem);
+  }
+
+  .detail-chinese-title {
+    font-size: 0.96rem;
+    margin-bottom: 12px;
+  }
+
+  .detail-meta {
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .detail-category,
+  .detail-tag {
+    min-height: 28px;
+    font-size: 0.66rem;
+  }
+
+  .detail-summary {
+    padding: 10px 12px;
+  }
+
+  .btn-back,
+  .btn-prev,
+  .btn-next,
+  .context-reset,
+  .source-link,
+  .job-lesson-open {
+    min-height: 46px;
   }
 
   .detail-jump-card {
@@ -2243,19 +2456,68 @@ mark {
     padding-right: 14px;
   }
 
+  .section-heading::before,
+  .section-heading::after {
+    display: none;
+  }
+
+  .vocab-term {
+    font-size: 1.12rem;
+  }
+
+  .vocab-chinese {
+    font-size: 0.92rem;
+  }
+
+  .vocab-definition,
+  .example-pair {
+    font-size: 0.9rem;
+  }
+
   .notebook-overview,
   .source-grid {
     padding-left: 14px;
     padding-right: 14px;
   }
 
+  .source-grid {
+    gap: 10px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  .source-card {
+    padding: 14px;
+    gap: 8px;
+  }
+
   .notebook-grid {
     grid-template-columns: 1fr;
+    gap: 10px;
     padding: 0 14px 14px;
+  }
+
+  .notebook-card {
+    padding: 14px;
   }
 
   .related-section {
     padding: 14px;
+  }
+
+  .layout {
+    padding: 16px 12px 92px;
+    padding: 16px 12px calc(92px + env(safe-area-inset-bottom));
+  }
+
+  .sidebar {
+    width: min(92vw, 320px);
+  }
+
+  .sidebar-toggle {
+    right: 14px;
+    bottom: 14px;
+    bottom: calc(14px + env(safe-area-inset-bottom));
   }
 }
 
