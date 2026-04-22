@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>赞赏支持 | 商务英语知识图谱</title>
+  <meta name="description" content="如果这份商务英语知识库帮到了你，可以通过微信赞赏支持这个持续整理的项目。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Noto+Serif+SC:wght@500;700;900&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/donate.css">
+</head>
+<body>
+  <main class="donate-page">
+    <div class="donate-shell">
+      <a class="donate-back" href="index.html">← 返回知识库</a>
+
+      <section class="donate-card">
+        <div class="donate-card-inner">
+          <div class="donate-eyebrow">Support The Project</div>
+          <h1 class="donate-title">感谢你的支持</h1>
+          <p class="donate-lead">50 个课题，覆盖商务英语与求职面试表达，按知识图谱方式整理，持续补充，免费开放。</p>
+
+          <ul class="donate-stats" aria-label="项目概览">
+            <li>40 Business English</li>
+            <li>10 Job Interview</li>
+            <li>Free Access</li>
+          </ul>
+
+          <p class="donate-emphasis">如果这份知识库帮到了你，请我喝杯咖啡吧。</p>
+
+          <div class="donate-quote">
+            <p>“清晰表达，本身就是专业能力的一部分。”</p>
+            <span>— Business English Notes</span>
+          </div>
+
+          <div class="donate-qr-section">
+            <div class="qr-frame" data-qr-frame>
+              <img src="assets/donate-qr.jpg" alt="微信赞赏码" class="donate-qr" id="donate-qr">
+              <div class="qr-fallback" id="qr-fallback">
+                <div class="qr-fallback-badge">等待替换</div>
+                <p>还没放入二维码</p>
+                <span>把你的微信赞赏码保存为 <code>assets/donate-qr.jpg</code>，页面会自动显示。</span>
+              </div>
+            </div>
+
+            <p class="donate-caption"><strong>微信</strong>扫一扫，金额随意</p>
+            <p class="donate-note">这笔赞赏会用于持续整理、补充和维护这套长期开放的学习资料。</p>
+            <p class="donate-note donate-note-strong">赞赏完成后，请添加微信 <code>xiaoxue9985211</code>，备注“PDF 下载”或“商务英语资料”。</p>
+            <p class="donate-note">我会把下载密码或下载链接发给你。</p>
+          </div>
+
+          <div class="donate-actions">
+            <a class="donate-action" href="index.html">返回首页</a>
+            <a class="donate-action" href="download.html">资料下载</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (() => {
+      const frame = document.querySelector('[data-qr-frame]');
+      const qrImage = document.getElementById('donate-qr');
+      if (!frame || !qrImage) return;
+
+      const showFallback = () => frame.classList.add('is-missing');
+      const showImage = () => frame.classList.remove('is-missing');
+
+      qrImage.addEventListener('error', showFallback, { once: true });
+      qrImage.addEventListener('load', showImage, { once: true });
+
+      if (qrImage.complete && qrImage.naturalWidth === 0) {
+        showFallback();
+      }
+    })();
+  </script>
+</body>
+</html>

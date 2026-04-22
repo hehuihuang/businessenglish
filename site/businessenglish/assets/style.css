@@ -1381,6 +1381,141 @@ mark {
   padding: 0 2px;
 }
 
+.header-tools {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.header-tools .header-search {
+  flex: 1 1 auto;
+  max-width: 540px;
+}
+
+.header-support {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 10px 16px;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--border) 66%);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--card) 92%, var(--muted) 8%);
+  box-shadow: var(--shadow-sm);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--accent) 82%, var(--foreground) 18%);
+  transition: border-color var(--transition), background-color var(--transition), color var(--transition), transform var(--transition);
+}
+
+.header-support:hover {
+  border-color: color-mix(in srgb, var(--accent) 62%, var(--border) 38%);
+  background: color-mix(in srgb, var(--accent) 10%, var(--card) 90%);
+  color: var(--accent);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.support-strip {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--card) 95%, white 5%), color-mix(in srgb, var(--muted) 84%, var(--card) 16%)),
+    radial-gradient(circle at top right, color-mix(in srgb, var(--accent) 12%, transparent), transparent 54%);
+  box-shadow: var(--shadow-sm);
+}
+
+.support-strip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 0%, transparent 56%, color-mix(in srgb, var(--accent) 8%, transparent) 100%);
+  pointer-events: none;
+}
+
+.support-strip-copy,
+.support-strip-actions,
+.support-strip-link {
+  position: relative;
+  z-index: 1;
+}
+
+.support-strip-copy {
+  min-width: 0;
+}
+
+.support-strip-actions {
+  display: grid;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.support-strip-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.support-strip-text {
+  color: color-mix(in srgb, var(--foreground) 88%, var(--muted-foreground) 12%);
+  font-size: 0.97rem;
+  line-height: 1.7;
+  max-width: 52ch;
+}
+
+.support-strip-link {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--border) 60%);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--accent) 11%, var(--card) 89%);
+  color: color-mix(in srgb, var(--accent) 86%, var(--foreground) 14%);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.support-strip-link:hover {
+  text-decoration: none;
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 18%, var(--card) 82%);
+}
+
+.support-strip-link.is-secondary {
+  background: color-mix(in srgb, var(--card) 94%, var(--muted) 6%);
+  color: color-mix(in srgb, var(--foreground) 82%, var(--muted-foreground) 18%);
+}
+
+.support-strip-link.is-secondary:hover {
+  background: color-mix(in srgb, var(--muted) 72%, var(--card) 28%);
+  color: var(--foreground);
+}
+
 .sidebar-toggle {
   display: none;
   position: fixed;
@@ -1461,6 +1596,16 @@ mark {
 
   .main-content {
     padding-top: 4px;
+  }
+
+  .support-strip {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .support-strip-actions,
+  .support-strip-link {
+    width: 100%;
   }
 
   .panel-header {
@@ -1550,7 +1695,21 @@ mark {
   }
 
   .header-brand,
+  .header-tools,
   .header-search {
+    width: 100%;
+  }
+
+  .header-tools {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-tools .header-search {
+    max-width: none;
+  }
+
+  .header-support {
     width: 100%;
   }
 

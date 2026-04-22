@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>资料下载 | 商务英语知识图谱</title>
+  <meta name="description" content="商务英语学习资料 PDF 下载页，支持密码验证，并展示 PDF 第 3、4 页预览。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Noto+Serif+SC:wght@500;700;900&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/download.css">
+</head>
+<body>
+  <main class="download-page">
+    <div class="download-shell">
+      <div class="download-topbar">
+        <a class="download-back" href="index.html">← 返回知识库</a>
+        <div class="download-top-actions">
+          <a class="download-top-link" href="donate.html">赞赏支持</a>
+        </div>
+      </div>
+
+      <section class="download-layout">
+        <article class="download-card">
+          <div class="download-card-inner">
+            <div class="download-kicker">PDF Download</div>
+            <h1 class="download-title">商务英语学习笔记</h1>
+            <p class="download-subtitle">这里提供的是 Derek Callan 商务英语学习教室笔记整理版。当前采用人工发放方式，先赞赏支持，再领取下载密码。</p>
+
+            <ul class="download-meta" aria-label="文件信息">
+              <li>47 Pages</li>
+              <li>1.20 MB</li>
+              <li>PDF Source</li>
+            </ul>
+
+            <p class="download-alert">赞赏完成后，请添加微信 <code>xiaoxue9985211</code>，备注“PDF 下载”或“商务英语资料”，我会把下载密码或下载链接发给你。右侧展示 PDF 第三 / 第四页预览。</p>
+
+            <form class="download-form" id="download-form">
+              <label class="download-label" for="download-password">Download password</label>
+              <div class="download-input-row">
+                <input
+                  type="password"
+                  id="download-password"
+                  class="download-input"
+                  placeholder="输入下载密码"
+                  autocomplete="off"
+                >
+                <button type="submit" class="download-button download-verify">验证密码</button>
+              </div>
+            </form>
+
+            <p class="download-feedback" id="download-feedback">已拿到密码后，在这里输入即可解锁下载按钮。</p>
+            <a class="download-button is-disabled" id="download-link" aria-disabled="true">验证密码后下载</a>
+            <p class="download-footnote">文件名：<code>Derek-Callan-Business-English-Notes.pdf</code></p>
+          </div>
+        </article>
+
+        <aside class="preview-panel">
+          <div class="preview-panel-inner">
+            <div class="preview-kicker">Preview</div>
+            <h2 class="preview-title">PDF 第 3 / 4 页预览</h2>
+            <p class="preview-copy">先看内容，再决定是否下载原件。</p>
+
+            <div class="preview-grid">
+              <figure class="preview-card">
+                <img src="../assets/pdf-previews/derek-callan-notes-p03.jpg" alt="Derek Callan 商务英语笔记 PDF 第 3 页预览" loading="lazy">
+                <figcaption>Preview / Page 03</figcaption>
+              </figure>
+              <figure class="preview-card">
+                <img src="../assets/pdf-previews/derek-callan-notes-p04.jpg" alt="Derek Callan 商务英语笔记 PDF 第 4 页预览" loading="lazy">
+                <figcaption>Preview / Page 04</figcaption>
+              </figure>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (() => {
+      const PASSWORD_HASH = '96b8ade003b5e13bd3f8e492917bfe9ab10c80ca7439fac13c08ceddc83cde13';
+      const FILE_URL = '../downloads/derek-callan-business-english-notes.pdf';
+      const FILE_NAME = 'Derek-Callan-Business-English-Notes.pdf';
+
+      const form = document.getElementById('download-form');
+      const input = document.getElementById('download-password');
+      const feedback = document.getElementById('download-feedback');
+      const link = document.getElementById('download-link');
+
+      const setFeedback = (text, type = '') => {
+        feedback.textContent = text;
+        feedback.className = `download-feedback${type ? ` is-${type}` : ''}`;
+      };
+
+      const lockLink = () => {
+        link.removeAttribute('href');
+        link.removeAttribute('download');
+        link.classList.add('is-disabled');
+        link.setAttribute('aria-disabled', 'true');
+        link.textContent = '验证密码后下载';
+      };
+
+      const unlockLink = () => {
+        link.href = FILE_URL;
+        link.download = FILE_NAME;
+        link.classList.remove('is-disabled');
+        link.setAttribute('aria-disabled', 'false');
+        link.textContent = '下载 PDF 原件';
+      };
+
+      const sha256Hex = async (value) => {
+        const encoded = new TextEncoder().encode(value);
+        const digest = await crypto.subtle.digest('SHA-256', encoded);
+        return Array.from(new Uint8Array(digest))
+          .map((byte) => byte.toString(16).padStart(2, '0'))
+          .join('');
+      };
+
+      lockLink();
+
+      link.addEventListener('click', (event) => {
+        if (link.classList.contains('is-disabled')) {
+          event.preventDefault();
+        }
+      });
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const password = input.value.trim();
+        if (!password) {
+          setFeedback('请输入下载密码。', 'error');
+          input.focus();
+          return;
+        }
+
+        try {
+          const hash = await sha256Hex(password);
+          if (hash === PASSWORD_HASH) {
+            unlockLink();
+            setFeedback('密码正确，下载按钮已解锁。', 'success');
+          } else {
+            lockLink();
+            setFeedback('密码不正确，请重试。', 'error');
+            input.focus();
+            input.select();
+          }
+        } catch (error) {
+          lockLink();
+          setFeedback('当前浏览器不支持密码验证，请更换浏览器后重试。', 'error');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

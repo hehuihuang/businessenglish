@@ -1,3 +1,6 @@
+const LESSON_RESOURCE_LIBRARY = {};
+const RESOURCE_INDEX = {};
+
 const App = {
   currentView: 'list',
   currentLesson: null,
@@ -7,6 +10,8 @@ const App = {
   expandedJobLessonId: null,
   selectedJobLessonId: null,
   currentListLessonIds: [],
+  unlockedResources: {},
+  resourceFeedback: {},
   expandedTracks: {
     businessenglish: true,
     job_interview: true
@@ -78,6 +83,14 @@ const App = {
 
     contextReset.addEventListener('click', () => {
       this.clearContext();
+    });
+
+    document.addEventListener('submit', (event) => {
+      const resourceForm = event.target.closest('.pdf-download-form');
+      if (!resourceForm) return;
+
+      event.preventDefault();
+      this.handleResourceUnlock(resourceForm);
     });
 
     jobLessonList.addEventListener('click', (event) => {
@@ -206,6 +219,89 @@ const App = {
     }
 
     return JOB_INTERVIEW_DOCS[lesson.source.videoId] || null;
+  },
+
+  getLessonResource(lesson) {
+    if (!lesson) return null;
+    return LESSON_RESOURCE_LIBRARY[lesson.id] || null;
+  },
+
+  getResourceById(resourceId) {
+    return RESOURCE_INDEX[resourceId] || null;
+  },
+
+  getResourceFeedback(resourceId) {
+    return this.resourceFeedback[resourceId] || null;
+  },
+
+  async sha256Hex(value) {
+    if (!window.crypto?.subtle) {
+      throw new Error('Current browser does not support secure hashing.');
+    }
+
+    const encoded = new TextEncoder().encode(value);
+    const digest = await window.crypto.subtle.digest('SHA-256', encoded);
+    return Array.from(new Uint8Array(digest))
+      .map((byte) => byte.toString(16).padStart(2, '0'))
+      .join('');
+  },
+
+  async handleResourceUnlock(form) {
+    const resourceId = form.dataset.resourceId;
+    const resource = this.getResourceById(resourceId);
+    const passwordInput = form.querySelector('input[name="download-password"]');
+
+    if (!resource || !passwordInput) return;
+
+    const enteredPassword = passwordInput.value.trim();
+
+    if (!enteredPassword) {
+      this.resourceFeedback[resourceId] = {
+        type: 'error',
+        text: '请输入下载密码。'
+      };
+
+      if (this.currentLesson) this.renderLessonDetail(this.currentLesson);
+      this.focusResourcePasswordInput(resourceId);
+      return;
+    }
+
+    try {
+      const passwordHash = await this.sha256Hex(enteredPassword);
+
+      if (passwordHash === resource.passwordHash) {
+        this.unlockedResources[resourceId] = true;
+        this.resourceFeedback[resourceId] = {
+          type: 'success',
+          text: '密码正确，下载权限已解锁。'
+        };
+      } else {
+        this.resourceFeedback[resourceId] = {
+          type: 'error',
+          text: '密码不正确，请重试。'
+        };
+      }
+    } catch (error) {
+      this.resourceFeedback[resourceId] = {
+        type: 'error',
+        text: '当前浏览器不支持密码验证，请更换浏览器后重试。'
+      };
+    }
+
+    if (this.currentLesson) this.renderLessonDetail(this.currentLesson);
+
+    if (!this.unlockedResources[resourceId]) {
+      this.focusResourcePasswordInput(resourceId);
+    }
+  },
+
+  focusResourcePasswordInput(resourceId) {
+    requestAnimationFrame(() => {
+      const input = document.querySelector(`.pdf-download-form[data-resource-id="${resourceId}"] input[name="download-password"]`);
+      if (!input) return;
+      input.focus();
+      input.select();
+    });
   },
 
   getReadingContextLabel() {
@@ -925,6 +1021,7 @@ const App = {
     const docSource = this.getJobInterviewDoc(lesson);
     const stats = this.getLessonStats(lesson);
     const related = getRelatedLessons(lesson.id);
+    const lessonResource = this.getLessonResource(lesson);
     const sourceLinks = [];
 
     if (lesson.source?.url) {
@@ -1066,12 +1163,85 @@ const App = {
 
     document.getElementById('detail-body').innerHTML = notebookHTML + bodyHTML + sourceHTML;
 
-    this.renderDetailRail(lesson, docSource, related, stats, sourceLinks);
+    this.renderDetailRail(lesson, docSource, related, stats, sourceLinks, lessonResource);
     this.renderDetailFooterNav(lesson);
     this.renderRelatedSection(related);
   },
 
-  renderDetailRail(lesson, docSource, related, stats, sourceLinks) {
+  renderLessonResourceCard(resource) {
+    const feedback = this.getResourceFeedback(resource.id);
+    const isUnlocked = Boolean(this.unlockedResources[resource.id]);
+
+    return `
+      <div class="rail-card pdf-resource-card">
+        <div class="rail-label">PDF Download</div>
+        <p class="pdf-resource-note">${this.escapeHTML(resource.note)}</p>
+        <div class="pdf-resource-head">
+          <div class="pdf-resource-title">${this.escapeHTML(resource.title)}</div>
+          <div class="pdf-resource-meta">${this.escapeHTML(resource.fileMeta)}</div>
+        </div>
+        <p class="pdf-resource-description">${this.escapeHTML(resource.description)}</p>
+
+        ${isUnlocked ? `
+          <div class="pdf-download-state is-success">
+            <span class="pdf-download-state-label">Access Ready</span>
+            <span class="pdf-download-state-copy">密码已验证，可以直接下载 PDF 原件。</span>
+          </div>
+        ` : `
+          <form class="pdf-download-form" data-resource-id="${resource.id}">
+            <label class="pdf-download-label" for="${resource.id}-password">Download password</label>
+            <div class="pdf-download-row">
+              <input
+                type="password"
+                id="${resource.id}-password"
+                name="download-password"
+                class="pdf-download-input"
+                placeholder="输入下载密码"
+                autocomplete="off"
+              >
+              <button type="submit" class="pdf-download-submit">验证密码</button>
+            </div>
+          </form>
+        `}
+
+        <p class="pdf-download-feedback ${feedback ? `is-${feedback.type}` : ''}">
+          ${feedback ? this.escapeHTML(feedback.text) : '输入密码后即可下载完整 PDF。'}
+        </p>
+
+        <div class="pdf-download-actions">
+          ${isUnlocked ? `
+            <a
+              class="pdf-download-link"
+              href="${resource.fileUrl}"
+              download="${resource.fileName}"
+            >
+              下载 PDF 原件
+            </a>
+          ` : `
+            <button type="button" class="pdf-download-link is-disabled" disabled>
+              验证密码后下载
+            </button>
+          `}
+        </div>
+
+        <div class="pdf-preview-grid">
+          ${resource.previewImages.map((preview) => `
+            <figure class="pdf-preview-card">
+              <img
+                class="pdf-preview-image"
+                src="${preview.src}"
+                alt="${this.escapeHTML(preview.alt)}"
+                loading="lazy"
+              >
+              <figcaption class="pdf-preview-caption">Preview / Page ${preview.page}</figcaption>
+            </figure>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  },
+
+  renderDetailRail(lesson, docSource, related, stats, sourceLinks, lessonResource) {
     const rail = document.getElementById('detail-rail');
 
     const outline = (lesson.sections || []).map((section, index) => {
@@ -1094,6 +1264,8 @@ const App = {
     }).join('');
 
     rail.innerHTML = `
+      ${lessonResource ? this.renderLessonResourceCard(lessonResource) : ''}
+
       <div class="rail-card">
         <div class="rail-label">Lesson snapshot</div>
         <div class="rail-stat-grid">
